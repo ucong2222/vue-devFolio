@@ -1,5 +1,7 @@
 <template>
-
+  <div class="text-red-500"> 
+    tailwind test
+  </div>
 </template>
 
 <script lang="ts">
