@@ -1,5 +1,5 @@
 <template>
-  <header class="top-bar h-20 px-2">
+  <header class="top-bar h-20 px-2 md:block hidden">
     <div class="lg:container mx-auto h-full flex font-bold text-xl">
       <router-link to="/" class="logo h-full border-red-500">
         <img class="h-16" src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FlrGO7%2FbtqZMohoycN%2FzyK8QDrHR2ZZGXj0wpby51%2Fimg.png" alt="">
@@ -18,24 +18,29 @@
             </router-link>
           </li>
           <li class="relative border-b-4 border-transparent hover:border-gray-300">
-            <a href="#" class="flex items-center h-full px-10">
+            <div class="flex items-center h-full px-10">
               <span>커뮤니티</span>
-            </a>
+            </div>
             <ul class="absolute hidden w-full top-full mt-1 left-0 bg-white border-box">
               <li>
-                <a href="#" class="block py-5 text-center hover-menu">
+                <router-link to="#" class="block py-5 text-center hover-menu">
                   <span>공지사항</span>
-                </a>
+                </router-link>
               </li>
               <li>
-                <a href="#" class="block py-5 text-center">
+                <router-link to="#" class="block py-5 text-center">
                   <span>취업톡톡</span>
-                </a>
+                </router-link>
               </li>
               <li>
-                <a href="#" class="block py-5 text-center">
+                <router-link to="#" class="block py-5 text-center">
                   <span>개발톡톡</span>
-                </a>
+                </router-link>
+              </li>
+              <li>
+                <router-link to="#" class="block py-5 text-center">
+                  <span>Q&A</span>
+                </router-link>
               </li>
             </ul>
           </li>
@@ -44,47 +49,156 @@
 
       <div class="logouted flex items-center font-normal hidden">
         <div>
-          <a href="#" class="text-gray-600 hover:text-gray-800 mr-4">로그인</a>
+          <router-link to="#" class="text-gray-600 hover:text-gray-800 mr-4">로그인</router-link>
         </div>
         <div>
-          <a href="#" class="text-gray-600 hover:text-gray-800">회원가입</a>
+          <router-link to="#" class="text-gray-600 hover:text-gray-800">회원가입</router-link>
         </div>
       </div>
 
       <div class="logined flex font-normal">
         <ul class="mr-4 h-full">
           <li class="relative h-full">
-            <a href="#" class="flex h-full items-center px-2">
+            <div class="flex h-full items-center px-2">
               <span class="flex items-center mr-1 text-2xl"><i class="fas fa-user-circle"></i></span>
               <span>김유경 님</span>
-            </a>
+            </div>
             <ul class="absolute hidden w-full top-full left-0 bg-white border-box">
               <li>
-                <a href="#" class="block py-5 text-center">
+                <router-link to="#" class="block py-5 text-center">
                   <span>마이페이지</span>
-                </a>
+                </router-link>
               </li>
               <li>
-                <a href="#" class="block py-5 text-center">
+                <router-link to="#" class="block py-5 text-center">
                   <span>로그아웃</span>
-                </a>
+                </router-link>
               </li>
             </ul>
           </li>
         </ul>
 
         <div class="flex items-center">
-          <a href="#" class="flex">
+          <router-link to="#" class="flex">
             <span class="flex items-center mr-1"><i class="far fa-bell"></i></span>
             <span>알림</span>
-          </a>
+          </router-link>
         </div>
       </div>
     </div>
   </header>
 
+  <!-- 모바일 버전 -->
+
+  <!-- 모바일 탑바 시작 -->
+  <div class="mobile-menu-block md:hidden h-screen w-full absolute top-0 left-0 bg-black bg-opacity-50 hidden z-10">
+  </div>
+  <header class="flex md:hidden py-2">
+    <div class="flex-1 flex items-center">
+      <div class="mobile-top-bar__btn-toggle-side-bar w-6 h-6 relative ml-3 cursor-pointer">
+        <div></div>
+        <div></div>
+        <div></div>
+      </div>
+    </div>
+
+    <div class="h-full flex">
+      <router-link to="/" class="logo h-full border-red-500">
+        <img class="h-14" src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FlrGO7%2FbtqZMohoycN%2FzyK8QDrHR2ZZGXj0wpby51%2Fimg.png" alt="">
+      </router-link>
+    </div>
+
+    <div class="flex-1 flex items-center justify-end">
+      <router-link to="#" class="text-2xl mr-3">
+        <i class="fas fa-search"></i>
+      </router-link>
+    </div>
+  </header>
+
+  <!-- 모바일 탑바 끝-->
+
+  <!-- 모바일 사이드 바 시작-->
+  <aside class="mobile-side-bar md:hidden flex-col active">
+    <div class="logo mt-2">
+      <img class="h-16" src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FlrGO7%2FbtqZMohoycN%2FzyK8QDrHR2ZZGXj0wpby51%2Fimg.png" alt="">
+    </div>
+    <nav class="mobile-side-bar__menu-box-1 w-full mt-2">
+      <ul class="text-gray-600 text-lg">
+        <li>
+          <router-link to="#" class="block border-t border-gray-200 p-2">
+            <span class="w-6 inline-block"><i class="fas fa-sign-in-alt"></i></span>
+            <span>로그인</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link to="#" class="block border-t border-gray-200 p-2">
+            <span class="w-6 inline-block"><i class="fas fa-user-plus"></i></span>
+            <span>회원가입</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link to="#" class="block border-t border-gray-200 p-2">
+            <span class="w-6 inline-block"><i class="fas fa-user-circle"></i></span>
+            <span>마이페이지</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link to="#" class="block border-t border-gray-200 p-2">
+            <span class="w-6 inline-block"><i class="far fa-bell"></i></span>
+            <span>알림</span>
+          </router-link>
+        </li>
+        <li class="border-t-8 border-gray-200">
+          <router-link to="#" class="block border-b p-2">
+            <span class="w-6 inline-block"><i class="fas fa-border-all"></i></span>
+            <span>포트폴리오</span>
+          </router-link>
+        </li>
+      <li class="border-t-8 border-gray-200">
+          <router-link to="#" class="block border-b p-2">
+            <span class="w-6 inline-block"><i class="far fa-building"></i></span>
+            <span>채용공고</span>
+          </router-link>
+        </li>
+        <li class="border-t-8 border-gray-200">
+          <router-link to="#" class="block border-b p-2">
+            <span class="w-6 inline-block"><i class="fas fa-bullhorn"></i></span>
+            <span>공지사항</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link to="#" class="block border-gray-200 p-2">
+            <span class="w-6 inline-block"><i class="fas fa-users"></i></span>
+            <span>취업톡톡</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link to="#" class="block border-t border-gray-200 p-2">
+            <span class="w-6 inline-block"><i class="fas fa-chalkboard-teacher"></i></span>
+            <span>개발톡톡</span>
+          </router-link>
+        </li>
+        <li>
+          <router-link to="#" class="block border-t border-gray-200 p-2">
+            <span class="w-6 inline-block"><i class="fas fa-question-circle"></i></span>
+            <span>Q&A</span>
+          </router-link>
+        </li>
+        <li class="border-t-8 border-gray-200">
+          <router-link to="#" class="block border-b p-2">
+            <span class="w-6 inline-block"><i class="fas fa-sign-out-alt"></i></span>
+            <span>로그아웃</span>
+          </router-link>
+        </li>
+      </ul>
+    </nav>
+  </aside>
+
+  <!-- 모바일 사이드 바 끝-->
+
   <main>
-    <router-view></router-view>
+    <div class="h-96 w-full bg-main">
+    </div>
   </main>
 </template>
 
@@ -107,15 +221,30 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.bg-main{
+  background-color:#2E4C92;
+}
+
+
+/* 메뉴바 - pc 시작 */
 .top-bar__menu-box-1 ul > li:hover > a,
 .logined ul li li:hover > a {
   color:#2E4C92;
 }
 
-@media (max-width: 880px){
-  .top-bar__menu-box-1 > ul > li > a{
+@media (max-width: 915px){
+  .top-bar__menu-box-1 > ul > li > *{
     padding: 0 20px;
   }
+}
+
+@media (max-width: 795px){
+  .top-bar__menu-box-1 > ul > li > * ,
+  .logined ,
+  .logouted {
+    font-size:18px;
+  }
+  
 }
 
 .top-bar__menu-box-1 > ul > li:hover > ul {
@@ -124,6 +253,48 @@ html, body {
 
 .logined > ul > li:hover > ul {
   display:block;
+}
+/* 메뉴바 - pc 끝 */
+
+
+/* 모바일 탑바 시작*/
+.mobile-top-bar__btn-toggle-side-bar > div {
+  position: absolute;
+  top: 0;
+  left: 0;
+  width: 100%;
+  height: 20%;
+  background-color: #333;
+  transition: top var(--mobile-top-bar__btn-toggle-side-bar__dur),
+    transform var(--mobile-top-bar__btn-toggle-side-bar__dur),
+    opacity var(--mobile-top-bar__btn-toggle-side-bar__dur);
+  border-radius: 2px;
+}
+
+.mobile-top-bar__btn-toggle-side-bar > div:nth-child(2) {
+  top: 40%;
+}
+
+.mobile-top-bar__btn-toggle-side-bar > div:nth-child(3) {
+  top: 80%;
+}
+
+/* 모바일 탑바 끝*/
+
+/* 모바일 사이드 바 시작 */
+.mobile-side-bar{
+  position:fixed;
+  top:0;
+  left:-100%;
+  width:70%;
+  bottom:0%;
+  background-color:white;
+  transition:left .3s;
+  display:flex;
+  padding-bottom:56px;
+}
+.mobile-side-bar.active{
+  left:0;
 }
 </style>
 
