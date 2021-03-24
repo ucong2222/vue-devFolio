@@ -91,11 +91,11 @@
   <!-- 모바일 버전 -->
 
   <!-- 모바일 탑바 시작 -->
-  <div class="mobile-menu-block md:hidden h-screen w-full absolute top-0 left-0 bg-black bg-opacity-50 hidden z-10">
+  <div @click="close_side_bar" :class="mobile_menu_block_active" class="mobile-menu-block md:hidden h-screen w-full absolute top-0 left-0 bg-black bg-opacity-50">
   </div>
   <header class="flex md:hidden py-2">
     <div class="flex-1 flex items-center">
-      <div class="mobile-top-bar__btn-toggle-side-bar w-6 h-6 relative ml-3 cursor-pointer">
+      <div @click="open_side_bar" class="mobile-top-bar__btn-toggle-side-bar w-6 h-6 relative ml-3 cursor-pointer">
         <div></div>
         <div></div>
         <div></div>
@@ -118,74 +118,74 @@
   <!-- 모바일 탑바 끝-->
 
   <!-- 모바일 사이드 바 시작-->
-  <aside class="mobile-side-bar md:hidden flex-col active">
+  <aside :class="mobile_side_bar_active" class="mobile-side-bar md:hidden flex-col">
     <div class="logo mt-2">
       <img class="h-16" src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FlrGO7%2FbtqZMohoycN%2FzyK8QDrHR2ZZGXj0wpby51%2Fimg.png" alt="">
     </div>
     <nav class="mobile-side-bar__menu-box-1 w-full mt-2">
       <ul class="text-gray-600 text-lg">
         <li>
-          <router-link to="#" class="block border-t border-gray-200 p-2">
+          <router-link @click="close_side_bar" to="#" class="block border-t border-gray-200 p-2">
             <span class="w-6 inline-block"><i class="fas fa-sign-in-alt"></i></span>
             <span>로그인</span>
           </router-link>
         </li>
         <li>
-          <router-link to="#" class="block border-t border-gray-200 p-2">
+          <router-link @click="close_side_bar" to="#" class="block border-t border-gray-200 p-2">
             <span class="w-6 inline-block"><i class="fas fa-user-plus"></i></span>
             <span>회원가입</span>
           </router-link>
         </li>
         <li>
-          <router-link to="#" class="block border-t border-gray-200 p-2">
+          <router-link @click="close_side_bar" to="#" class="block border-t border-gray-200 p-2">
             <span class="w-6 inline-block"><i class="fas fa-user-circle"></i></span>
             <span>마이페이지</span>
           </router-link>
         </li>
         <li>
-          <router-link to="#" class="block border-t border-gray-200 p-2">
+          <router-link @click="close_side_bar" to="#" class="block border-t border-gray-200 p-2">
             <span class="w-6 inline-block"><i class="far fa-bell"></i></span>
             <span>알림</span>
           </router-link>
         </li>
         <li class="border-t-8 border-gray-200">
-          <router-link to="#" class="block border-b p-2">
+          <router-link @click="close_side_bar" to="/" class="block border-b p-2 delay-75">
             <span class="w-6 inline-block"><i class="fas fa-border-all"></i></span>
             <span>포트폴리오</span>
           </router-link>
         </li>
       <li class="border-t-8 border-gray-200">
-          <router-link to="#" class="block border-b p-2">
+          <router-link @click="close_side_bar" to="/article/list" class="block border-b p-2">
             <span class="w-6 inline-block"><i class="far fa-building"></i></span>
             <span>채용공고</span>
           </router-link>
         </li>
         <li class="border-t-8 border-gray-200">
-          <router-link to="#" class="block border-b p-2">
+          <router-link @click="close_side_bar" to="#" class="block border-b p-2">
             <span class="w-6 inline-block"><i class="fas fa-bullhorn"></i></span>
             <span>공지사항</span>
           </router-link>
         </li>
         <li>
-          <router-link to="#" class="block border-gray-200 p-2">
+          <router-link @click="close_side_bar" to="#" class="block border-gray-200 p-2">
             <span class="w-6 inline-block"><i class="fas fa-users"></i></span>
             <span>취업톡톡</span>
           </router-link>
         </li>
         <li>
-          <router-link to="#" class="block border-t border-gray-200 p-2">
+          <router-link @click="close_side_bar" to="#" class="block border-t border-gray-200 p-2">
             <span class="w-6 inline-block"><i class="fas fa-chalkboard-teacher"></i></span>
             <span>개발톡톡</span>
           </router-link>
         </li>
         <li>
-          <router-link to="#" class="block border-t border-gray-200 p-2">
+          <router-link @click="close_side_bar" to="#" class="block border-t border-gray-200 p-2">
             <span class="w-6 inline-block"><i class="fas fa-question-circle"></i></span>
             <span>Q&A</span>
           </router-link>
         </li>
         <li class="border-t-8 border-gray-200">
-          <router-link to="#" class="block border-b p-2">
+          <router-link @click="close_side_bar" to="#" class="block border-b p-2">
             <span class="w-6 inline-block"><i class="fas fa-sign-out-alt"></i></span>
             <span>로그아웃</span>
           </router-link>
@@ -197,16 +197,55 @@
   <!-- 모바일 사이드 바 끝-->
 
   <main>
-    <div class="h-96 w-full bg-main">
+    <div class="h-96 w-full bg-main">      
     </div>
+    <router-view>
+    </router-view>
   </main>
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   name: 'App',
+  setup(){
+    const mobile_menu_block_active = ref();
+    const mobile_side_bar_active = ref();
+
+    mobile_menu_block_active.value ={
+      hidden : true,
+      'z-10' : true,
+      active : false,
+      block : false,
+    };
+
+    mobile_side_bar_active.value ={
+      active:false,
+      'z-20':true,
+    };
+
+    const open_side_bar = () => {
+      mobile_side_bar_active.value.active = true;
+      mobile_menu_block_active.value.hidden = false;
+      mobile_menu_block_active.value.active = true;
+      mobile_menu_block_active.value.block = true;
+    };
+
+    const close_side_bar = () => {
+      mobile_side_bar_active.value.active = false;
+      mobile_menu_block_active.value.hidden = true;
+      mobile_menu_block_active.value.active = false;
+      mobile_menu_block_active.value.block = false;
+    };
+
+    return {
+      mobile_menu_block_active,
+      mobile_side_bar_active,
+      open_side_bar,
+      close_side_bar,
+    };
+  }
 })
 </script>
 
@@ -293,6 +332,7 @@ html, body {
   display:flex;
   padding-bottom:56px;
 }
+
 .mobile-side-bar.active{
   left:0;
 }
