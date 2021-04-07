@@ -1,5 +1,5 @@
 <template>
-  <header class="top-bar h-20 px-2 md:block hidden">
+  <header v-if="!isChecked" class="top-bar h-20 px-2 md:block hidden">
     <div class="lg:container mx-auto h-full flex font-bold text-xl">
       <router-link to="/" class="logo h-full border-red-500">
         <img class="h-16" src="https://img1.daumcdn.net/thumb/R1280x0/?scode=mtistory2&fname=https%3A%2F%2Fblog.kakaocdn.net%2Fdn%2FlrGO7%2FbtqZMohoycN%2FzyK8QDrHR2ZZGXj0wpby51%2Fimg.png" alt="">
@@ -47,44 +47,15 @@
         </ul>
       </nav>
 
-      <div class="logouted flex items-center font-normal hidden">
+      <div class="logouted flex items-center font-normal ">
         <div>
-          <router-link to="#" class="text-gray-600 hover:text-gray-800 mr-4">로그인</router-link>
+          <a href="/member/login" class="text-gray-600 hover:text-gray-800 mr-4">로그인</a>
         </div>
         <div>
-          <router-link to="#" class="text-gray-600 hover:text-gray-800">회원가입</router-link>
+          <a href="/member/join" class="text-gray-600 hover:text-gray-800">회원가입</a>
         </div>
       </div>
 
-      <div class="logined flex font-normal">
-        <ul class="mr-4 h-full">
-          <li class="relative h-full">
-            <div class="flex h-full items-center px-2">
-              <span class="flex items-center mr-1 text-2xl"><i class="fas fa-user-circle"></i></span>
-              <span>김유경 님</span>
-            </div>
-            <ul class="absolute hidden w-full top-full left-0 bg-white border-box">
-              <li>
-                <router-link to="#" class="block py-5 text-center">
-                  <span>마이페이지</span>
-                </router-link>
-              </li>
-              <li>
-                <router-link to="#" class="block py-5 text-center">
-                  <span>로그아웃</span>
-                </router-link>
-              </li>
-            </ul>
-          </li>
-        </ul>
-
-        <div class="flex items-center">
-          <router-link to="#" class="flex">
-            <span class="flex items-center mr-1"><i class="far fa-bell"></i></span>
-            <span>알림</span>
-          </router-link>
-        </div>
-      </div>
     </div>
   </header>
 
@@ -125,13 +96,13 @@
     <nav class="mobile-side-bar__menu-box-1 w-full mt-2">
       <ul class="text-gray-600 text-lg">
         <li>
-          <router-link @click="close_side_bar" to="#" class="block border-t border-gray-200 p-2">
+          <router-link @click="close_side_bar" to="/member/login" class="block border-t border-gray-200 p-2">
             <span class="w-6 inline-block"><i class="fas fa-sign-in-alt"></i></span>
             <span>로그인</span>
           </router-link>
         </li>
         <li>
-          <router-link @click="close_side_bar" to="#" class="block border-t border-gray-200 p-2">
+          <router-link @click="close_side_bar" to="/member/join" class="block border-t border-gray-200 p-2">
             <span class="w-6 inline-block"><i class="fas fa-user-plus"></i></span>
             <span>회원가입</span>
           </router-link>
@@ -197,8 +168,6 @@
   <!-- 모바일 사이드 바 끝-->
 
   <main>
-    <div class="h-96 w-full bg-main">      
-    </div>
     <router-view>
     </router-view>
   </main>
@@ -239,12 +208,25 @@ export default defineComponent({
       mobile_menu_block_active.value.block = false;
     };
 
+    var isChecked:boolean  = false;
+
     return {
       mobile_menu_block_active,
       mobile_side_bar_active,
       open_side_bar,
       close_side_bar,
+      isChecked,
     };
+  },
+  created(){
+
+    if(document.location.pathname === '/member/login'){
+       this.isChecked = true; 
+    } else if (document.location.pathname === '/member/join'){
+       this.isChecked = true;
+    } else {
+      this.isChecked = false;
+    }
   }
 })
 </script>
@@ -262,6 +244,10 @@ html, body {
 
 .bg-main{
   background-color:#2E4C92;
+}
+
+.text-color-1{
+  color:#233e7d;
 }
 
 

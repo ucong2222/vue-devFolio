@@ -3,6 +3,8 @@ import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import PortFolioPage from './pages/PortFolioPage.vue'
 import RecruitPage from './pages/RecruitPage.vue'
+import MemberLoginPage from './pages/MemberLoginPage.vue'
+import MemberJoinPage from './pages/MemberJoinPage.vue'
 import './index.css'
 
 //font-awesome과 관련된 import를 정의 
@@ -14,7 +16,9 @@ library.add(faUserSecret)
 
 const routes = [
   { path: '/', component: PortFolioPage },
-  { path: '/article/list', component: RecruitPage }
+  { path: '/article/list', component: RecruitPage },
+  { path : '/member/login', component : MemberLoginPage },
+  { path : '/member/join', component : MemberJoinPage },
 ]
 
 const router = createRouter({
