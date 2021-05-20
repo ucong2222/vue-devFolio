@@ -13,6 +13,12 @@ import { faUserSecret } from '@fortawesome/free-solid-svg-icons'
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome' 
 library.add(faUserSecret)
 
+// MainApi 불러오기
+import { MainApi } from './apis/'
+
+// MainApi 객체 생성
+const mainApi = new MainApi();
+
 
 const routes = [
   { path: '/', component: PortFolioPage },
@@ -28,4 +34,17 @@ const router = createRouter({
 })
 
 
-createApp(App).use(router).component('font-awesome-icon', FontAwesomeIcon).mount('#app')
+// 앱 생성
+const app = createApp(App)
+
+// 전력 라이브러리 등록
+app.config.globalProperties.$mainApi = mainApi;
+
+// 전역 컴포넌트 등록
+app.component('font-awesome-icon', FontAwesomeIcon);
+
+// 앱에 라우터 적용
+app.use(router)
+
+// 앱 표시
+app.mount('#app')
