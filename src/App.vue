@@ -47,7 +47,7 @@
         </ul>
       </nav>
 
-      <div class="logouted flex items-center font-normal ">
+      <div v-if="globalShare.isLogined == false" class="logouted flex items-center font-normal ">
         <div>
           <a href="/member/login" class="text-gray-600 hover:text-gray-800 mr-4">로그인</a>
         </div>
@@ -55,6 +55,36 @@
           <a href="/member/join" class="text-gray-600 hover:text-gray-800">회원가입</a>
         </div>
       </div>
+
+      <div v-if="globalShare.isLogined" class="logined flex font-normal">
+      <ul class="mr-4 h-full">
+        <li class="relative h-full">
+          <div class="flex h-full items-center px-2">
+            <span class="flex items-center mr-1 text-2xl"><i class="fas fa-user-circle"></i></span>
+            <span>김유경 님</span>
+          </div>
+          <ul class="absolute hidden w-full top-full left-0 bg-white border-box">
+            <li>
+              <router-link to="#" class="block py-5 text-center">
+                <span>마이페이지</span>
+              </router-link>
+            </li>
+            <li>
+              <router-link to="#" class="block py-5 text-center">
+                <span>로그아웃</span>
+              </router-link>
+            </li>
+          </ul>
+        </li>
+      </ul>
+
+      <div class="flex items-center">
+        <router-link to="#" class="flex">
+          <span class="flex items-center mr-1"><i class="far fa-bell"></i></span>
+          <span>알림</span>
+        </router-link>
+      </div>
+    </div>
 
     </div>
   </header>

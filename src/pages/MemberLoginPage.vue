@@ -17,10 +17,10 @@
         <h2 class="text-center text-3xl text-color-1 font-display font-semibold lg:text-left xl:text-3xl
                       xl:text-bold">LOGIN</h2>
         <div class="mt-12">
-          <form>
+          <form v-on:submit.prevent="checkAndLogin">
             <div>
               <div class="text-sm font-bold text-gray-700 tracking-wide">ID</div>
-              <input class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-blue-900" type="text" placeholder="Enter your ID">
+              <input ref="loginIdElRef" class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-blue-900" type="text" placeholder="Enter your ID">
             </div>
             <div class="mt-8">
               <div class="flex justify-between items-center">
@@ -34,10 +34,10 @@
                   </a>
                 </div>
               </div>
-              <input class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-blue-900" type="password" placeholder="Enter your password">
+              <input ref="loginPwElRef" class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-blue-900" type="password" placeholder="Enter your password">
             </div>
             <div class="mt-10">
-              <button class="login-btn bg-main text-gray-100 p-4 w-full rounded-full tracking-wide font-semibold font-display focus:outline-none focus:shadow-outline shadow-lg">
+              <button type="submit" class="login-btn bg-main text-gray-100 p-4 w-full rounded-full tracking-wide font-semibold font-display focus:outline-none focus:shadow-outline shadow-lg">
                 LOGIN
               </button>
             </div>
@@ -70,10 +70,95 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref, getCurrentInstance } from 'vue'
+import { MainApi } from '../apis/'
+import { Router } from 'vue-router';
 
 export default defineComponent({
   name: 'MemberLoginPage',
+  props: {
+    globalShare:{
+      type: Object,
+      required: true
+    },
+  },
+  setup(props){
+    const router:Router = getCurrentInstance()?.appContext.config.globalProperties.$router;
+    const mainApi:MainApi = getCurrentInstance()?.appContext.config.globalProperties.$mainApi;
+    const loginIdElRef = ref<HTMLInputElement>();
+    const loginPwElRef = ref<HTMLInputElement>();
+
+    function checkAndLogin(){
+      if (loginIdElRef.value == null){
+        return;
+      }
+
+      const loginIdEl = loginIdElRef.value;
+
+      loginIdEl.value = loginIdEl.value.trim();
+
+      if ( loginIdEl.value.length == 0 ){
+        alert('로그인 아이디를 입력해주세요.');
+        loginIdEl.focus();
+
+        return;
+      }
+
+      if (loginPwElRef.value == null){
+        return;
+      }
+
+      const loginPwEl = loginPwElRef.value;
+      
+      loginPwEl.value = loginPwEl.value.trim();
+      
+        if ( loginPwEl.value.length == 0 ) {
+          alert('로그인 비번을 입력해주세요.');
+          loginPwEl.focus();
+
+          return;
+        }
+
+        login(loginIdEl.value, loginPwEl.value);
+      }
+
+    function login(loginId:string, loginPw:string){
+      mainApi.member_authKey(loginId, loginPw)
+      .then(axiosResponse => {
+
+        alert(axiosResponse.data.msg);
+        
+        if ( axiosResponse.data.fail ) {
+          return;
+        }
+
+        const authKey = axiosResponse.data.body.authKey;
+        const loginedMember = axiosResponse.data.body.member;
+
+        localStorage.setItem("authKey", authKey);
+        localStorage.setItem("loginedMemberId", loginedMember.id + "");
+        localStorage.setItem("loginedMemberName", loginedMember.name);
+        localStorage.setItem("loginedMemberNickname", loginedMember.nickname);
+        
+        props.globalShare.loginedMember = {
+          authKey,
+          id:loginedMember.id,
+          name:loginedMember.name,
+          nicknam:loginedMember.nickname,
+        };
+
+        location.replace('/');
+
+      });
+    }
+
+    return {
+      checkAndLogin,
+      loginIdElRef,
+      loginPwElRef
+    }   
+
+  }
 })
 </script>
 

@@ -13,3 +13,19 @@ export function toInt(data:any, defaultValue:any) {
 export function toIntOrUnd(data:any) {
   return toInt(data, undefined);
 } 
+
+export function toIntOrNull(data:any) {
+  return toInt(data, null);
+} 
+
+export function toStringOrNull(data:any) {
+  if ( data == null ) {
+    return null;
+  }
+
+  if ( data == "null" ) {
+    return null;
+  }
+
+  return data;
+} 

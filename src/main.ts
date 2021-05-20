@@ -17,14 +17,20 @@ library.add(faUserSecret)
 import * as Util from './utils/';
 
 // 전역상태 만들기
-const globalShare:any = reactive({
-  loginedMember:{},
-  isLogined: computed(() => Util.isEmptyObject(globalShare.loginedMember) === false)
-});
+const authKey = localStorage.getItem("authKey")
+const loginedMemberId = Util.toIntOrNull(localStorage.getItem("loginedMemberId"))
+const loginedMemberName = Util.toStringOrNull(localStorage.getItem("loginedMemberName"))
+const loginedMemberNickname = Util.toStringOrNull(localStorage.getItem("loginedMemberNickname"))
 
-setTimeout(() => {
-  globalShare.loginedMember.id = 1;
-}, 1000);
+const globalShare:any = reactive({
+  loginedMember:{
+    authKey,
+    id:loginedMemberId,
+    name:loginedMemberName,
+    nicknam:loginedMemberNickname,
+  },
+  isLogined: computed(() => globalShare.loginedMember.id !== null )
+});
 
 // MainApi 불러오기
 import { MainApi } from './apis/'
@@ -34,9 +40,13 @@ const mainApi = new MainApi();
 
 
 const routes = [
-  { path: '/', component: PortFolioPage },
+  { path: '/', component: PortFolioPage ,props: (route:any) => ({globalShare}) },
   { path: '/article/list', component: RecruitPage },
-  { path : '/member/login', component : MemberLoginPage },
+  {
+     path : '/member/login',
+     component : MemberLoginPage,
+     props: (route:any) => ({globalShare}) 
+  },
   { path : '/member/join', component : MemberJoinPage },
 ]
 

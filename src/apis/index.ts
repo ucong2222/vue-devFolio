@@ -69,6 +69,14 @@ abstract class HttpClient {
 
     return this.instance.post(url, params, config);
   }
+
+  public post<T = any, R = AxiosResponse<T>>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R> {
+    return this.instance.post(url, data, config);
+  }
+
+  public get<T = any, R = AxiosResponse<T>>(url: string, config?: AxiosRequestConfig): Promise<R> {
+    return this.instance.get(url, config);
+  }
   
 }
 
@@ -76,15 +84,23 @@ abstract class HttpClient {
 interface Base__IResponseBodyType1 {
   resultCode:string;
   msg:string;
+  fail:boolean;
+  success:boolean;
 }
 
+export interface MainApi__member_authKey__IResponseBody extends Base__IResponseBodyType1 {
+  body:{
+    authKey:string,
+    member:IMember,
+  };
+}
 
-// http://localhost:8046/usr/ 와의 통신장치
+// http://localhost:8046/ 와의 통신장치
 export class MainApi extends HttpClient {
   public constructor() {
     super(
       axios.create({
-        baseURL:'http://localhost:8046/usr/',
+        baseURL:'http://localhost:8046/',
       })
     );
   }
@@ -98,9 +114,19 @@ export class MainApi extends HttpClient {
   protected _handleResponse(axiosResponse:AxiosResponse) : AxiosResponse {
     if ( axiosResponse?.data?.resultCode == "F-B" ) {
       alert('로그인 후 이용해주세요.');
-      location.replace('/member/login');
+      location.replace('/usr/member/login');
     }
 
     return axiosResponse;
+  }
+
+  public member_authKey(loginId:string, loginPw:string) {
+    return this.postByForm<MainApi__member_authKey__IResponseBody>(
+      `/usr/member/authKey`,
+      {
+        loginId,
+        loginPw
+      }
+    );
   }
 }
