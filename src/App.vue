@@ -178,6 +178,12 @@ import { defineComponent, ref } from 'vue'
 
 export default defineComponent({
   name: 'App',
+  props: {
+    globalShare: {
+      type: Object,
+      required: true
+    },
+  },
   setup(){
     const mobile_menu_block_active = ref();
     const mobile_side_bar_active = ref();

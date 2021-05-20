@@ -1,4 +1,4 @@
-import { createApp } from 'vue'
+import { createApp, reactive, computed } from 'vue'
 import { createRouter, createWebHistory } from 'vue-router'
 import App from './App.vue'
 import PortFolioPage from './pages/PortFolioPage.vue'
@@ -7,11 +7,24 @@ import MemberLoginPage from './pages/MemberLoginPage.vue'
 import MemberJoinPage from './pages/MemberJoinPage.vue'
 import './index.css'
 
-//font-awesome과 관련된 import를 정의 
+// 전역 컴포넌트 불러오기
+// font-awesome과 관련된 import를 정의 
 import { library } from '@fortawesome/fontawesome-svg-core' 
 import { faUserSecret } from '@fortawesome/free-solid-svg-icons' 
 import { FontAwesomeIcon } from '@fortawesome/vue-fontawesome' 
 library.add(faUserSecret)
+
+import * as Util from './utils/';
+
+// 전역상태 만들기
+const globalShare:any = reactive({
+  loginedMember:{},
+  isLogined: computed(() => Util.isEmptyObject(globalShare.loginedMember) === false)
+});
+
+setTimeout(() => {
+  globalShare.loginedMember.id = 1;
+}, 1000);
 
 // MainApi 불러오기
 import { MainApi } from './apis/'
@@ -35,7 +48,9 @@ const router = createRouter({
 
 
 // 앱 생성
-const app = createApp(App)
+const app = createApp(App, {
+  globalShare
+});
 
 // 전력 라이브러리 등록
 app.config.globalProperties.$mainApi = mainApi;
