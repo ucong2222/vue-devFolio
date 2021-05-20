@@ -70,9 +70,9 @@
               </router-link>
             </li>
             <li>
-              <router-link to="#" class="block py-5 text-center">
+              <a v-on:click="globalShare.logout" class="block py-5 text-center cursor-pointer">
                 <span>로그아웃</span>
-              </router-link>
+              </a>
             </li>
           </ul>
         </li>
@@ -125,25 +125,25 @@
     </div>
     <nav class="mobile-side-bar__menu-box-1 w-full mt-2">
       <ul class="text-gray-600 text-lg">
-        <li>
+        <li v-if="globalShare.isLogined == false">
           <router-link @click="close_side_bar" to="/member/login" class="block border-t border-gray-200 p-2">
             <span class="w-6 inline-block"><i class="fas fa-sign-in-alt"></i></span>
             <span>로그인</span>
           </router-link>
         </li>
-        <li>
+        <li v-if="globalShare.isLogined == false">
           <router-link @click="close_side_bar" to="/member/join" class="block border-t border-gray-200 p-2">
             <span class="w-6 inline-block"><i class="fas fa-user-plus"></i></span>
             <span>회원가입</span>
           </router-link>
         </li>
-        <li>
+        <li v-if="globalShare.isLogined">
           <router-link @click="close_side_bar" to="#" class="block border-t border-gray-200 p-2">
             <span class="w-6 inline-block"><i class="fas fa-user-circle"></i></span>
             <span>마이페이지</span>
           </router-link>
         </li>
-        <li>
+        <li v-if="globalShare.isLogined">
           <router-link @click="close_side_bar" to="#" class="block border-t border-gray-200 p-2">
             <span class="w-6 inline-block"><i class="far fa-bell"></i></span>
             <span>알림</span>
@@ -185,11 +185,11 @@
             <span>Q&A</span>
           </router-link>
         </li>
-        <li class="border-t-8 border-gray-200">
-          <router-link @click="close_side_bar" to="#" class="block border-b p-2">
+        <li v-if="globalShare.isLogined" class="border-t-8 border-gray-200">
+          <a @click="close_side_bar" v-on:click="globalShare.logout" class="block border-b p-2 cursor-pointer">
             <span class="w-6 inline-block"><i class="fas fa-sign-out-alt"></i></span>
             <span>로그아웃</span>
-          </router-link>
+          </a>
         </li>
       </ul>
     </nav>
