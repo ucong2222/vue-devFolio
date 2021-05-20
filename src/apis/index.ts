@@ -52,6 +52,24 @@ abstract class HttpClient {
 
     return Promise.reject(error);
   };
+
+  public postByForm<T = any, R = AxiosResponse<T>>(url: string, data?: any, config?: AxiosRequestConfig): Promise<R> {
+    const params = new URLSearchParams();
+
+    for ( let key in data ) {
+      params.append(key, data[key]);
+    }
+
+    config =  {} as AxiosRequestConfig;
+
+    config.headers = {
+      'Content-type': 'application/x-www-form-urlencoded; charset=UTF-8',
+      'Accept': '*/*'
+    };
+
+    return this.instance.post(url, params, config);
+  }
+  
 }
 
 // 응답타입1
@@ -78,7 +96,7 @@ export class MainApi extends HttpClient {
   };
 
   protected _handleResponse(axiosResponse:AxiosResponse) : AxiosResponse {
-    if ( axiosResponse?.data?.requestCode == "F-B" ) {
+    if ( axiosResponse?.data?.resultCode == "F-B" ) {
       alert('로그인 후 이용해주세요.');
       location.replace('/member/login');
     }
