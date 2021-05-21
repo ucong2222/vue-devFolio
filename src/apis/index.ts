@@ -95,6 +95,12 @@ export interface MainApi__member_authKey__IResponseBody extends Base__IResponseB
   };
 }
 
+export interface MainApi__member_doJoin__IResponseBody extends Base__IResponseBodyType1 {
+  body:{
+    id: number,
+  };
+}
+
 // http://localhost:8046/ 와의 통신장치
 export class MainApi extends HttpClient {
   public constructor() {
@@ -129,4 +135,19 @@ export class MainApi extends HttpClient {
       }
     );
   }
+
+  public member_doJoin(loginId:string, loginPw:string, name:string, nickname:string, cellphoneNo:string, email:string){
+    return this.postByForm<MainApi__member_doJoin__IResponseBody>(
+      '/usr/member/doJoin',{
+        loginId,
+        loginPw,
+        name,
+        nickname,
+        cellphoneNo,
+        email
+      }
+    );
+  }
+
+
 }

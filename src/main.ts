@@ -5,6 +5,7 @@ import PortFolioPage from './pages/PortFolioPage.vue'
 import RecruitPage from './pages/RecruitPage.vue'
 import MemberLoginPage from './pages/MemberLoginPage.vue'
 import MemberJoinPage from './pages/MemberJoinPage.vue'
+import MemberDetailPage from './pages/MemberDetailPage.vue'
 import './index.css'
 
 // 전역 컴포넌트 불러오기
@@ -55,7 +56,16 @@ const routes = [
      component : MemberLoginPage,
      props: (route:any) => ({globalShare}) 
   },
-  { path : '/member/join', component : MemberJoinPage },
+  { 
+    path : '/member/join',
+    component : MemberJoinPage,
+    props: (route:any) => ({globalShare}) 
+  },
+  {
+    path : '/member/detail',
+    component : MemberDetailPage,
+    props: (route:any) => ({globalShare})
+  },
 ]
 
 const router = createRouter({

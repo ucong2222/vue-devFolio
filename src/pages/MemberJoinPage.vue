@@ -14,38 +14,38 @@
       <div class="mt-8 px-12 sm:px-24 md:px-48 lg:px-12 lg:mt-8 xl:px-24 xl:max-w-2xl">
         <h2 class="text-center text-3xl text-color-1 font-display font-semibold lg:text-left xl:text-3xl xl:text-bold">JOIN</h2>
         <div class="mt-12">
-          <form>
+          <form v-on:submit.prevent="checkAndJoin">
             <div>
               <div class="text-sm font-bold text-gray-700 tracking-wide">ID</div>
-              <input class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-blue-900" type="text" placeholder="Enter your ID">
+              <input ref="loginIdElRef" class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-blue-900" type="text" placeholder="Enter your ID">
             </div>
             <div class="mt-8">
               <div class="text-sm font-bold text-gray-700 tracking-wide">password</div>
-              <input class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-blue-900" type="password" placeholder="Enter your password">
+              <input ref="loginPwElRef" class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-blue-900" type="password" placeholder="Enter your password">
             </div>
             <div class="mt-8">
               <div class="text-sm font-bold text-gray-700 tracking-wide">passwordConfirm</div>
-              <input class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-blue-900" type="password" placeholder="Enter your passwordConfirm">
+              <input ref="loginPwConfirmElRef" class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-blue-900" type="password" placeholder="Enter your passwordConfirm">
             </div>
             <div class="mt-8">
               <div class="text-sm font-bold text-gray-700 tracking-wide">name</div>
-              <input class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-blue-900" type="text" placeholder="Enter your name">
+              <input ref="nameElRef" class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-blue-900" type="text" placeholder="Enter your name">
             </div>
             <div class="mt-8">
               <div class="text-sm font-bold text-gray-700 tracking-wide">nickname</div>
-              <input class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-blue-900" type="text" placeholder="Enter your nickname">
+              <input ref="nicknameElRef" class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-blue-900" type="text" placeholder="Enter your nickname">
             </div>
             <div class="mt-8">
               <div class="text-sm font-bold text-gray-700 tracking-wide">Email Address</div>
-              <input class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-blue-900" type="email" placeholder="Enter your Email Address">
+              <input ref="emailElRef" class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-blue-900" type="email" placeholder="Enter your Email Address">
             </div>
             <div class="mt-8">
               <div class="text-sm font-bold text-gray-700 tracking-wide">cellphoneNo</div>
-              <input class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-blue-900" type="tel" placeholder="Enter your cellphoneNo">
+              <input ref="cellphoneNoElRef" class="w-full text-lg py-2 border-b border-gray-300 focus:outline-none focus:border-blue-900" type="tel" placeholder="Enter your cellphoneNo">
             </div>
 
             <div class="mt-10">
-              <button class="login-btn bg-main text-gray-100 p-4 w-full rounded-full tracking-wide
+              <button type="submit" class="login-btn bg-main text-gray-100 p-4 w-full rounded-full tracking-wide
                                   font-semibold font-display focus:outline-none focus:shadow-outline
                                   shadow-lg">
                 join
@@ -76,10 +76,130 @@
 </template>
 
 <script lang="ts">
-import { defineComponent } from 'vue'
+import { defineComponent, ref, getCurrentInstance} from 'vue'
+import { MainApi } from '../apis/'
+import { Router } from 'vue-router';
 
 export default defineComponent({
   name: 'MemberJoinPage',
+  props: {
+    globalShare: {
+      type: Object,
+      required: true
+    },
+  },
+  setup(props) {
+    const router:Router = getCurrentInstance()?.appContext.config.globalProperties.$router;
+    const mainApi:MainApi = getCurrentInstance()?.appContext.config.globalProperties.$mainApi;
+
+    const loginIdElRef = ref<HTMLInputElement>();
+    const loginPwElRef = ref<HTMLInputElement>();
+    const loginPwConfirmElRef = ref<HTMLInputElement>();
+    const nameElRef = ref<HTMLInputElement>();
+    const nicknameElRef = ref<HTMLInputElement>();
+    const cellphoneNoElRef = ref<HTMLInputElement>();
+    const emailElRef = ref<HTMLInputElement>();
+    function checkAndJoin() {
+      // 로그인아이디 체크
+      if ( loginIdElRef.value == null ) {
+        return;
+      }
+      const loginIdEl = loginIdElRef.value;
+      loginIdEl.value = loginIdEl.value.trim();
+      if ( loginIdEl.value.length == 0 ) {
+        alert('로그인 아이디를 입력해주세요.');
+        loginIdEl.focus();
+        return;
+      }
+      // 로그인비번 체크
+      if ( loginPwElRef.value == null ) {
+        return;
+      }
+      const loginPwEl = loginPwElRef.value;
+      loginPwEl.value = loginPwEl.value.trim();
+      if ( loginPwEl.value.length == 0 ) {
+        alert('로그인 비밀번호를 입력해주세요.');
+        loginPwEl.focus();
+        return;
+      }
+      // 로그인비번확인 체크
+      if ( loginPwConfirmElRef.value == null ) {
+        return;
+      }
+      const loginPwConfirmEl = loginPwConfirmElRef.value;
+      if ( loginPwEl.value != loginPwConfirmEl.value ) {
+        alert('비밀번호가 일치하지 않습니다.');
+        loginPwConfirmEl.focus();
+        return;
+      }
+      // 이름 체크
+      if ( nameElRef.value == null ) {
+        return;
+      }
+      const nameEl = nameElRef.value;
+      nameEl.value = nameEl.value.trim();
+      if ( nameEl.value.length == 0 ) {
+        alert('이름을 입력해주세요.');
+        nameEl.focus();
+        return;
+      }
+      // 별명 체크
+      if ( nicknameElRef.value == null ) {
+        return;
+      }
+      const nicknameEl = nicknameElRef.value;
+      nicknameEl.value = nicknameEl.value.trim();
+      if ( nicknameEl.value.length == 0 ) {
+        alert('별명을 입력해주세요.');
+        nicknameEl.focus();
+        return;
+      }
+      // 이메일 체크
+      if ( emailElRef.value == null ) {
+        return;
+      }
+      const emailEl = emailElRef.value;
+      emailEl.value = emailEl.value.trim();
+      if ( emailEl.value.length == 0 ) {
+        alert('이메일을 입력해주세요.');
+        emailEl.focus();
+        return;
+      }
+      // 휴대전화번호 체크
+      if ( cellphoneNoElRef.value == null ) {
+        return;
+      }
+      const cellphoneNoEl = cellphoneNoElRef.value;
+      cellphoneNoEl.value = cellphoneNoEl.value.trim();
+      if ( cellphoneNoEl.value.length == 0 ) {
+        alert('휴대전화번호를 입력해주세요.');
+        cellphoneNoEl.focus();
+        return;
+      }
+      
+      join(loginIdEl.value, loginPwEl.value, nameEl.value, nicknameEl.value, cellphoneNoEl.value, emailEl.value);
+    }
+    function join(loginId:string, loginPw:string, name:string, nickname:string, cellphoneNo:string, email:string) {
+      mainApi.member_doJoin(loginId, loginPw, name, nickname, cellphoneNo, email)
+        .then(axiosResponse => {
+          alert(axiosResponse.data.msg);
+          if ( axiosResponse.data.fail ) {
+            return;
+          }
+          router.replace('/member/detail')
+        });
+    }
+    return {
+      checkAndJoin,
+      loginIdElRef,
+      loginPwElRef,
+      loginPwConfirmElRef,
+      nameElRef,
+      nicknameElRef,
+      cellphoneNoElRef,
+      emailElRef,
+    }
+  }
 })
 </script>
 

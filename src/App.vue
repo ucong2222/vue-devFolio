@@ -257,9 +257,11 @@ export default defineComponent({
   created(){
 
     if(document.location.pathname === '/member/login'){
-       this.isChecked = true; 
+      this.isChecked = true; 
     } else if (document.location.pathname === '/member/join'){
-       this.isChecked = true;
+      this.isChecked = true;
+    } else if (document.location.pathname === '/member/detail'){
+      this.isChecked = true;
     } else {
       this.isChecked = false;
     }
@@ -278,6 +280,10 @@ html, body {
   -moz-osx-font-smoothing: grayscale;
 }
 
+.text-main {
+  color: #2e4c92;
+}
+
 .bg-main{
   background-color:#2E4C92;
 }
@@ -286,6 +292,9 @@ html, body {
   color:#233e7d;
 }
 
+.login-btn:hover {
+  background-color: #233e7d;
+}
 
 /* 메뉴바 - pc 시작 */
 .top-bar__menu-box-1 ul > li:hover > a,
